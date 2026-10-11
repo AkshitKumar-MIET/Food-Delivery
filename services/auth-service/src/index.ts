@@ -5,9 +5,9 @@ import authRoute from "./routes/auth.js"
 
 dotenv.config()
 
-connectDb()
-
 const app = express()
+app.use(express.json())
+
 
 app.use("/api/auth", authRoute)
 
@@ -15,4 +15,5 @@ const PORT = process.env.PORT || 5000
 
 app.listen(PORT, ()=>{
     console.log(`Auth-service is running at port: ${PORT}`)
+    connectDb()
 })
