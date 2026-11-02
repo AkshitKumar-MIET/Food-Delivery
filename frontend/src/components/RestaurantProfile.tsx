@@ -49,8 +49,9 @@ const RestaurantProfile = ({restaurant, isSeller, onUpdate}: props) => {
                 }
             })
 
-            onUpdate(data.restaurant)
             toast.success(data.message)
+            onUpdate(data.restaurant)
+            setEditMode(false)
 
 
         } catch (error) {
