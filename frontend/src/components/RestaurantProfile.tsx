@@ -69,8 +69,8 @@ const RestaurantProfile = ({restaurant, isSeller, onUpdate}: props) => {
                 object-cover" />
             }
             <div className="p-5 space-y-4 ">
-                {
-                    isSeller && <div className="flext items-start justify-between">
+                
+                    <div className="flext items-start justify-between">
                         <div>
                            {
                             editMode ? (
@@ -83,9 +83,11 @@ const RestaurantProfile = ({restaurant, isSeller, onUpdate}: props) => {
                             }
                            </div>
                         </div>
-                        <button onClick={() => setEditMode(!editMode)} className="text-gray-500 hover:text-black"><BiEdit size={18} /></button>
+                        {isSeller && <button onClick={() => setEditMode(!editMode)} className="text-gray-500 hover:text-black"><BiEdit size={18} /></button>}
                     </div>
-                }
+
+
+                
 
                 {
                     editMode ? <textarea value={description} onChange={e => setDescription(e.target.value)}
