@@ -23,7 +23,6 @@ const Checkout = () => {
     const [loadingAddress, setLoadingAddress] = useState(true)
 
     const [loadingRazorpay, setLoadingRazorpay] = useState(false)
-    const [loadingStripe, setLoadingStripe] = useState(false)
     const [creatingOrder, setCreatingOrder] = useState(false)
 
     const navigate = useNavigate()
@@ -152,24 +151,7 @@ const Checkout = () => {
             }
         }
 
-    const payWithStripe = async () => {
-        try {
-            setLoadingStripe(true)
-
-            const order = await createOrder("stripe")
-
-            if(!order) {
-                return
-            }
-
-            console.log("Stripe checkout", order)
-        } catch (error) {
-            console.error(error)
-            toast.error("Payment Failed")
-        }finally {
-            setLoadingStripe(false)
-        }
-    }
+    
 
     return (
         <div className="mx-auto max-w-4xl px-4 py-6 space-y-6">
@@ -259,10 +241,6 @@ const Checkout = () => {
                 <button disabled={!selectedAddressId || loadingRazorpay || creatingOrder} onClick={payWithRazorpay} className="
                 flex w-full items-center justify-center gap-2 rounded-lg bg-[#2d7ff9] py-3 text-sm font-semibold text-white hover:bg-blue-500 disabled:opacity-50">{loadingRazorpay ? <BiLoader size={18} className="animate-spin" />
                 : <BiCreditCard size={18} />}Pay With RazorPay</button>
-
-                <button disabled={!selectedAddressId || loadingStripe || creatingOrder} onClick={payWithStripe} className="
-                flex w-full items-center justify-center gap-2 rounded-lg bg-black py-3 text-sm font-semibold text-white hover:bg-gray-800 disabled:opacity-50">{loadingRazorpay ? <BiLoader size={18} className="animate-spin" />
-                : <BiCreditCard size={18} />}Pay With Strip</button>
             </div>
         </div>
     )
