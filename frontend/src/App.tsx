@@ -16,13 +16,24 @@ import Checkout from "./pages/Checkout"
 import { PaymentSuccess } from "./pages/PaymentSuccess"
 import Orders from "./pages/Orders"
 import OrderPage from "./pages/OrderPage"
+import RiderDashboard from "./pages/RiderDashboard"
 
 
 const App = () => {
-  const {user} = useAppData()
+  const {user, loading} = useAppData()
+
+  if(loading){
+    return (
+      <h1 className="text-2xl font-bold text-red-500 text-center mt-56">Loading...</h1>
+    )
+  }
 
   if(user && user.role==="seller"){
     return <Restaurant />
+  }
+
+  if(user && user.role==="rider"){
+    return <RiderDashboard />
   }
 
   return (

@@ -52,8 +52,9 @@ const RestaurantOrders = ({restaurantId}: {restaurantId: string}) => {
         } finally {
             setLoading(false)
         }
+    }
 
-        useEffect(() => {
+    useEffect(() => {
             fetchOrders()
         }, [restaurantId])
 
@@ -81,7 +82,22 @@ const RestaurantOrders = ({restaurantId}: {restaurantId: string}) => {
                 socket.off("order:new", onNewOrder)
             }
         }, [socket, audioUnlocked])
-    }
+
+        useEffect(() => {
+            if(!socket){
+                return
+            }
+
+            const onUpdateOrder = () =>{
+                fetchOrders()
+            }
+
+            socket.on("order:rider_assigned", onUpdateOrder)
+
+            return () => {
+                socket.off("order:rider_assigned", onUpdateOrder)
+            }
+        }, [socket])
 
     if(loading){
         return (
