@@ -10,6 +10,7 @@ import { useRef } from "react";
 import audio from "../assets/sample-9s.mp3"
 import RiderOrderRequest from "../components/RiderOrderRequest";
 import RiderCurrentOrder from "../components/RiderCurrentOrder";
+import RiderOrderMap from "../components/RiderOrderMap";
 
 interface IRider {
     _id: string;
@@ -296,6 +297,7 @@ const RiderDashboard = () => {
         {currentOrder && (
             <div className="mx-auto max-w-md px-4 space-y-4">
                 <RiderCurrentOrder order={currentOrder} onStatusUpdate={fetchCurrentOrder} />
+                <RiderOrderMap order={currentOrder} />
             </div>
         )}
         </div>

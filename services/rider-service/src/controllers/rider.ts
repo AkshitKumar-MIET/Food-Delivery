@@ -270,7 +270,7 @@ export const updateOrderStatus = TryCatch(async (req:AuthenticatedRequest, res) 
     const {orderId} = req.params
 
     try {
-        const {data} = await axios.put(`${process.env.RESTAURANT_SERVICE}/api/order/update/rider`,{
+        const {data} = await axios.put(`${process.env.RESTAURANT_SERVICE}/api/order/update/status/rider`,{
             orderId,
         },{
             headers:{
