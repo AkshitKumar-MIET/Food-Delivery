@@ -63,7 +63,7 @@ const OrderCard = ({order, onStatusUpdate}: props) => {
             toast.success("Order updated")
             onStatusUpdate?.()
         } catch (error: any) {
-            toast.error(error.responsedata.message)
+            toast.error(error.response.data.message)
         } finally {
             setLoading(false)
         }

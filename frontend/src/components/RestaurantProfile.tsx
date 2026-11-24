@@ -81,7 +81,7 @@ const RestaurantProfile = ({restaurant, isSeller, onUpdate}: props) => {
     }
 
     return (
-        <div className="mx-auto max-ww-xl rounded-xl bg-white shadow-sm overflow-hidden">
+        <div className="mx-auto max-w-xl rounded-xl bg-white shadow-sm overflow-hidden">
             {
                 restaurant.image && <img src={restaurant.image} alt="" className="h-48 w-full
                 object-cover" />
@@ -103,9 +103,6 @@ const RestaurantProfile = ({restaurant, isSeller, onUpdate}: props) => {
                         </div>
                         {isSeller && <button onClick={() => setEditMode(!editMode)} className="text-gray-500 hover:text-black"><BiEdit size={18} /></button>}
                     </div>
-
-
-                
 
                 {
                     editMode ? <textarea value={description} onChange={e => setDescription(e.target.value)}

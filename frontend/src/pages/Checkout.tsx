@@ -68,7 +68,7 @@ const Checkout = () => {
 
     const grandTotal = subTotal + deliveryFee + platformFee
 
-    const createOrder = async (paymentMethod: "razorpay" | "stripe") => {
+    const createOrder = async (paymentMethod: "razorpay") => {
         if(!selectedAddressId){
             return null
         }
@@ -115,7 +115,7 @@ const Checkout = () => {
                     key,
                     amount: amount * 100,
                     currency: "INR",
-                    name: "Tomato",
+                    name: "FoodShould",
                     description: "Food order payment",
                     order_id: razorpayOrderId,
 
@@ -150,8 +150,6 @@ const Checkout = () => {
                 setLoadingRazorpay(false)
             }
         }
-
-    
 
     return (
         <div className="mx-auto max-w-4xl px-4 py-6 space-y-6">

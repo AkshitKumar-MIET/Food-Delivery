@@ -2,12 +2,11 @@ import { AuthenticatedRequest } from "../middlewares/isAuth.js";
 import TryCatch from "../middlewares/trycatch.js";
 import Address from "../models/Address.js";
 import Cart from "../models/Cart.js";
-import Restaurant from "../models/restaurant.js"
+import Restaurant, { IRestaurant } from "../models/restaurant.js"
 import { IMenuItem } from "../models/Menuitems.js";
-import { IRestaurant } from "../models/restaurant.js";
 import Order from "../models/Order.js";
 import axios from "axios";
-import { publishEvent } from "../config/order.publlisher.js";
+import { publishEvent } from "../config/order.publisher.js";
 
 export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
     const user = req.user
@@ -81,7 +80,7 @@ export const createOrder = TryCatch(async (req: AuthenticatedRequest, res) => {
 
     if(!restaurant.isOpen){
         return res.status(404).json({
-            message: "sorry this restaurant is closed"
+            message: "sorry this restaurant is closed for now"
         })
     }
 

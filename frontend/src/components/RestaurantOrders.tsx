@@ -101,7 +101,7 @@ const RestaurantOrders = ({restaurantId}: {restaurantId: string}) => {
 
     if(loading){
         return (
-            <p className="text-gray-500">Loading Orders</p>
+            <p className="text-gray-500">Loading Orders...</p>
         )
     }
 
@@ -119,11 +119,10 @@ const RestaurantOrders = ({restaurantId}: {restaurantId: string}) => {
                         <p className="text-sm text-blue-700">Get Notified When new orders arrive</p>
                     </div>
                 </div>
-                <button onClick={unlockAudio} className="bg-blue-600 hover:bg-blue-700 text-whilte px-4 py-2 rounded-lg
+                <button onClick={unlockAudio} className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg
                 font-medium transition">Enable Sound</button>
         </div>}
 
-        {/* Active orders */}
         <div className="space-y-3">
             <h3 className="text-lg font-semibold">Active Orders</h3>
 

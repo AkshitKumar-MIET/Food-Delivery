@@ -11,7 +11,7 @@ export const startPaymentConsumer = async () => {
         }
 
         try {
-            const event = JSON.parse(msg.content.toString())
+            const event = await JSON.parse(msg.content.toString())
 
             if(event.type !== "PAYMENT_SUCCESS"){
                 channel.ack(msg)
@@ -42,8 +42,6 @@ export const startPaymentConsumer = async () => {
             }
 
             console.log("Order Placed (from rabbitmq)", order._id)
-
-            // Socket_work
 
             await axios.post(`${process.env.REALTIME_SERVICE}/api/v1/internal/emit`,{
                 event: "order:new",

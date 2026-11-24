@@ -34,13 +34,13 @@ export const addRestaurant = TryCatch(async (req: AuthenticatedRequest, res) => 
     const file = req.file
     if(!file){
         return res.status(400).json({
-            message: "please give all image"
+            message: "please give image"
         })
     }
 
     const fileBuffer = getBuffer(file)
 
-    if(!fileBuffer){
+    if(!fileBuffer?.content){
         return res.status(500).json({
             message: "failed to create file buffer"
         })

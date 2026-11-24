@@ -30,7 +30,7 @@ cloudinary.v2.config({
 })
 
 app.use("/api", uploadRoutes)
-app.use("/payment", paymentRoutes)
+app.use("/api/payment", paymentRoutes)
 
 const PORT = process.env.PORT || 5002
 

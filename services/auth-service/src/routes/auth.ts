@@ -6,6 +6,6 @@ const router = Router()
 
 router.post("/login", loginUser)
 router.put("/add/role", isAuth, addUserRole)
-router.get("/me", myProfile)
+router.get("/me", isAuth, myProfile)
 
 export default router

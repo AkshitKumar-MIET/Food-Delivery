@@ -1,4 +1,3 @@
-
 import User from "../model/User.js"
 import jwt from "jsonwebtoken"
 import TryCatch from "../middlewares/try-catch.js"

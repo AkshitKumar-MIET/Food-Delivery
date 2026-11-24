@@ -32,6 +32,7 @@ export const AppProvider = ({children}: AppProviderProps) => {
             })
 
             setUser(data)
+            setIsAuth(true)
         } catch(err){
             console.log(err)
         } finally {
@@ -56,7 +57,7 @@ export const AppProvider = ({children}: AppProviderProps) => {
             })
 
             setCart(data.cart || [])
-            setSubTotal(data.subTotal)
+            setSubTotal(data.subTotal || 0)
             setQuantity(data.cartLength)
 
         } catch (error) {

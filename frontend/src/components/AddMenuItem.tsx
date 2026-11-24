@@ -21,7 +21,7 @@ const AddMenuItem = ({onItemAdded}: {onItemAdded: () => void}) => {
 
     const handleSubmit = async () => {
         if(!name || !price || !image){
-            alert("NAme, price and image are required")
+            alert("Name, price and image are required")
             return
         }
 

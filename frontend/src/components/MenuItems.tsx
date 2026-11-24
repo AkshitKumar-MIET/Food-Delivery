@@ -34,6 +34,7 @@ const MenuItems = ({items, onItemDeleted, isSeller}: MenuItemsProps) => {
             })
 
             toast.success("Item deleted")
+            onItemDeleted()
         } catch (error) {
             console.log(error)
             toast.error("Failed to delete")
@@ -50,6 +51,7 @@ const MenuItems = ({items, onItemDeleted, isSeller}: MenuItemsProps) => {
             })
 
             toast.success(data.message)
+            onItemDeleted()
         } catch (error) {
             console.log(error)
             toast.error("Failed to update status")
@@ -86,7 +88,7 @@ const MenuItems = ({items, onItemDeleted, isSeller}: MenuItemsProps) => {
                 items.map((item) => {
                     const isLoading = loadingItemId === item._id
 
-                    return <div className={`relative flex gap-4 roumded-lg bg-white p-4 shadow-sm
+                    return (<div className={`relative flex gap-4 roumded-lg bg-white p-4 shadow-sm
                     transition ${!item.isAvailable ? "opacity-70" : ""}`} key={item._id}>
                         <div className="relative shrink-0">
                             <img src={item.image} alt="" className={`h-20 w-20 rounded object-cover ${!item.isAvailable ? "grayscale brightness-75" : ""}`} />
@@ -110,11 +112,11 @@ const MenuItems = ({items, onItemDeleted, isSeller}: MenuItemsProps) => {
                                 <p className="font-medium">₹{item.price}</p>
 
                                 {
-                                    isSeller && <div className="flex gap-2">
+                                    isSeller && (<div className="flex gap-2">
                                         <button onClick={() => toggleAvailability(item._id)} className="rounded-lg p-2 text-gray-600 
                                         hover:bg-gray-100">{item.isAvailable ? <BsEye size={18} /> : <FiEyeOff size={18} />}</button>
                                         <button onClick={() => handleDelete(item._id)} className="rounded-lg p-2 text-red-500 hover:bg-red-50"><BiTrash size={18} /></button>
-                                    </div>
+                                    </div>)
                                 }
 
                                 {
@@ -125,7 +127,7 @@ const MenuItems = ({items, onItemDeleted, isSeller}: MenuItemsProps) => {
                                 }
                             </div>
                         </div>
-                    </div>
+                    </div>)
                 })
             }
         </div>

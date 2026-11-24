@@ -7,6 +7,7 @@ import RestaurantProfile from "../components/RestaurantProfile"
 import MenuItems from "../components/MenuItems"
 import AddMenuItem from "../components/AddMenuItem"
 import RestaurantOrders from "../components/RestaurantOrders"
+import Sales from "../components/Sales"
 
 type SellerTab = "menu" | "add-item" | "sales"
 
@@ -18,6 +19,7 @@ const Restaurant = () => {
 
     const fetchMyRestaurant = async () => {
         try {
+            console.log("Hello")
             const {data} = await axios.get(`${restaurantService}/api/restaurant/my`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
@@ -66,7 +68,7 @@ const Restaurant = () => {
     if(loading){
         return (
             <div className="flex min-h-screen items-center justify-center">
-                <p className="text-gray-500">Loading Your Restaurant</p>
+                <p className="text-gray-500">Loading Your Restaurant...</p>
             </div>
         )
     }
@@ -97,7 +99,7 @@ const Restaurant = () => {
                 <div className="p-5">
                     {tab === "menu" && <MenuItems items={menuItems} onItemDeleted={() => fetchMenuItems(restaurant._id)} isSeller={true} />}
                     {tab === "add-item" && <AddMenuItem onItemAdded={() => fetchMenuItems(restaurant._id)}/>}
-                    {tab === "sales" && <p>Sales Page</p>}
+                    {tab === "sales" && <Sales restaurantId={restaurant._id} />}
                 </div>
             </div>
         </div>

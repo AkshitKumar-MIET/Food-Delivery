@@ -26,7 +26,7 @@ const RiderCurrentOrder = ({order, onStatusUpdate}: Props) => {
     }
     return (
         <div className="rounded-xl bg-white shadow-sm p-4 space-y-4">
-            <h1 className="font-semibold text-gray-800">Current ORder</h1>
+            <h1 className="font-semibold text-gray-800">Current Order</h1>
 
             <div className="text-sm text-gray-600 space-y-1">
                 <p >

@@ -14,7 +14,7 @@ export const startOrderReadyConsumer = async () => {
         try {
             console.log("Received message ", msg.content.toString())
 
-            const event = JSON.parse(msg.content.toString())
+            const event = await JSON.parse(msg.content.toString())
 
             console.log("event type", event.type)
 

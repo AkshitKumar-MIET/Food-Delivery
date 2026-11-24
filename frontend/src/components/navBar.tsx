@@ -30,7 +30,7 @@ const NavBar = () => {
         <div className="w-full bg-white shadow-sm">
             <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3">
                 <Link to={"/"} className="text-2xl font-bold text-[#E23744] cursor-pointer">
-                    Tomato
+                    FoodShould
                 </Link>
                 <div className="flex items-center gap-4">
                     <Link to={"/cart"} className="relative">
@@ -46,7 +46,6 @@ const NavBar = () => {
                 </div>
             </div>
 
-            {/* search bar */}
             {
                 isHomePage && <div className="border-t px-4 py-3">
                     <div className="mx-auto flex max-w-7xl items-center rounded-lg border

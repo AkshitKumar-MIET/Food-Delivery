@@ -49,7 +49,7 @@ export const initSocket = (server: http.Server) => {
             socket.join(`restaurant: ${user.restaurantId}`)
         }
 
-        console.log(`usser connected: ${userId}`)
+        console.log(`user connected: ${userId}`)
         console.log("Socket room: ", [...socket.rooms])
 
         socket.on("disconnect", ()=>{
