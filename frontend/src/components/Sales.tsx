@@ -54,7 +54,7 @@ const Sales = ({restaurantId}: {restaurantId: string}) => {
             {
                 orders.map((order) => {
                     let totalRevenue = 0
-                    return <div className="relative flex gap-4 roumded-lg bg-white p-4 shadow-sm">
+                    return <div className="relative flex gap-4 rounded-lg bg-white p-4 shadow-sm">
                         {
                             order.items.map((item) => {
                                 totalRevenue += item.price - Math.ceil(item.price * 0.3)
@@ -66,7 +66,7 @@ const Sales = ({restaurantId}: {restaurantId: string}) => {
                                 </div>
                                 })
                         }
-                        <h2>Total Revenue: ₹{totalRevenue}</h2>
+                        <h2 className="text-green-5000">Total Revenue: ₹{totalRevenue}</h2>
                     </div>
                 })
             }
