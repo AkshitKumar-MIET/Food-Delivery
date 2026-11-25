@@ -1,95 +1,104 @@
-import {ObjectId} from "mongodb"
-import TryCatch from "../middlewares/try-catch.js"
-import {getRestaurantCollection, getRiderCollection} from "../util/collection.js"
+import { ObjectId } from "mongodb";
+import TryCatch from "../middlewares/try-catch.js";
+import {
+  getRestaurantCollection,
+  getRiderCollection,
+} from "../util/collection.js";
 
 export const getPendingRestaurant = TryCatch(async (req, res) => {
-    const restaurants = await (await getRestaurantCollection()).find({isVerified: false}).toArray()
+  const restaurants = await (await getRestaurantCollection())
+    .find({ isVerified: false })
+    .toArray();
 
-    res.json({
-        count: restaurants.length,
-        restaurants
-    })
-})
+  res.json({
+    count: restaurants.length,
+    restaurants,
+  });
+});
 
-export const getPendingRider = TryCatch(async (req, res) => {
-    const riders = await (await getRiderCollection()).find({isVerified: false}).toArray()
+export const getPendingRiders = TryCatch(async (req, res) => {
+  const riders = await (await getRiderCollection())
+    .find({ isVerified: false })
+    .toArray();
 
-    res.json({
-        count: riders.length,
-        riders
-    })
-})
+  res.json({
+    count: riders.length,
+    riders,
+  });
+});
 
-export const verifyRestaurant = TryCatch(async(req, res) => {
-    const {id} = req.params
+export const verifyRestaurant = TryCatch(async (req, res) => {
+  const { id } = req.params;
 
-    if(typeof id !== "string"){
-        return res.status(400).json({
-            message: "Invalid restaurant id"
-        })
+  if (typeof id !== "string") {
+    return res.status(400).json({
+      message: "invalid restaurant id",
+    });
+  }
+
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({
+      message: "Invalid object id",
+    });
+  }
+
+  const result = await (
+    await getRestaurantCollection()
+  ).updateOne(
+    { _id: new ObjectId(id) },
+    {
+      $set: {
+        isVerified: true,
+        updatedAt: new Date(),
+      },
     }
+  );
 
-    if(!ObjectId.isValid(id)){
-        return res.status(400).json({
-            message: "Invalid object id"
-        }) 
+  if (result.matchedCount === 0) {
+    return res.status(404).json({
+      message: "Restaurant not found",
+    });
+  }
+
+  res.json({
+    message: "Restaurant verified successfully",
+  });
+});
+
+export const verifyRider = TryCatch(async (req, res) => {
+  const { id } = req.params;
+
+  if (typeof id !== "string") {
+    return res.status(400).json({
+      message: "invalid rider id",
+    });
+  }
+
+  if (!ObjectId.isValid(id)) {
+    return res.status(400).json({
+      message: "Invalid object id",
+    });
+  }
+
+  const result = await (
+    await getRiderCollection()
+  ).updateOne(
+    { _id: new ObjectId(id) },
+    {
+      $set: {
+        isVerified: true,
+        updatedAt: new Date(),
+      },
     }
+  );
 
-    const result = await (await getRestaurantCollection()).updateOne(
-        {
-            _id: new ObjectId(id)
-        },{
-            $set: {
-                isVerified: true,
-                updatedAt: new Date()
-            }
-        }
-    )
+  if (result.matchedCount === 0) {
+    return res.status(404).json({
+      message: "rider not found",
+    });
+  }
 
-    if(result.matchedCount === 0){
-        return res.status(404).json({
-            message: "Restaurant not found"
-        })
-    }
-
-    res.json({
-        message: "Restaurant verified successfully"
-    })
-})
-
-export const verifyRider = TryCatch(async(req, res) => {
-    const {id} = req.params
-
-    if(typeof id !== "string"){
-        return res.status(400).json({
-            message: "Invalid rider id"
-        })
-    }
-
-    if(!ObjectId.isValid(id)){
-        return res.status(400).json({
-            message: "Invalid object id"
-        }) 
-    }
-
-    const result = await (await getRiderCollection()).updateOne(
-        {
-            _id: new ObjectId(id)
-        },{
-            $set: {
-                isVerified: true,
-                updatedAt: new Date()
-            }
-        }
-    )
-
-    if(result.matchedCount === 0){
-        return res.status(404).json({
-            message: "Rider not found"
-        })
-    }
-
-    res.json({
-        message: "Rider verified successfully"
-    })
-})
+  res.json({
+    message: "rider verified successfully",
+  });
+});

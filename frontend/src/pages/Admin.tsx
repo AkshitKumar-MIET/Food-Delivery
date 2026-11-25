@@ -1,82 +1,126 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-import { adminService } from "../main"
-import AdminRestaurantCard from "../components/AdminRestaurantCard"
-import RiderAdmin from "../components/RiderAdmin"
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { adminService } from "../main";
+import AdminRestaurantCard from "../components/AdminRestaurantCard";
+import RiderAdmin from "../components/RiderAdmin";
+import { useAppData } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const Admin = () => {
-    const [restaurant, setRestaurant] = useState<any[]>([])
-    const [riders, setRiders] = useState<any[]>([])
-    const [loading, setLoading] = useState(true)
-    const [tab, setTab] = useState<"restaurant" | "rider">("restaurant")
+  const {setUser, setIsAuth} = useAppData()
+  const [restaurant, setRestaurant] = useState<any[]>([]);
+  const [riders, setRiders] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [tab, setTab] = useState<"restaurant" | "rider">("restaurant");
 
-    const fetchData = async () => {
-        try {
-            const {data} = await axios.get(`${adminService}/api/v1/admin/restaurant/pending`,{
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            })
-
-            const response = await axios.get(`${adminService}/api/v1/admin/rider/pending`,{
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`
-                }
-            })
-
-            setRestaurant(data.restaurants)
-            setRiders(response.data.riders)
-        } catch (error) {
-            console.log(error)
-        } finally {
-            setLoading(false)
+  const fetchData = async () => {
+    try {
+      const { data } = await axios.get(
+        `${adminService}/api/v1/admin/restaurant/pending`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         }
+      );
+
+      const response = await axios.get(
+        `${adminService}/api/v1/admin/rider/pending`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+
+      setRestaurant(data.restaurants);
+      setRiders(response.data.riders);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
+  };
 
-    useEffect(() => {
-        fetchData()
-    },[])
+  const logoutHandler = () => {
+    localStorage.setItem("token", "");
+    setUser(null);
+    setIsAuth(false);
+    toast.success("logout Success");
+  };
 
-    if(loading){
-        return (
-            <div className="flex h-[60vh] items-center justify-center">
-                <p className="text-gray-500">Loading Admin Panel...</p>
-            </div>
-        )
-    }
+  useEffect(() => {
+    fetchData();
+  }, []);
 
+  if (loading) {
     return (
-        <div className="mx-auto max-w-6xl px-6 py-6 space-y-6">
-            <h1 className="text-2xl font-bold" >Admin Dashboard</h1>
-            <div className="flex gap-4">
-                <button onClick={() => setTab("restaurant")} className={`px-4 py-2 rounded ${
-                    tab === "restaurant" ? "bg-red-500 text-white" : "bg-gray-200 text-black"
-                }`}>Restaurant</button>
+      <div className="flex h-[60vh] items-center justify-center">
+        <p className="text-gray-500">Loading admin panel...</p>
+      </div>
+    );
+  }
+  return (
+    <div className="mx-auto max-w-6xl px-6 py-6 space-y-6">
+      <h1 className="text-2xl font-bold">Admin Dashboard</h1>
 
-                <button onClick={() => setTab("rider")} className={`px-4 py-2 rounded ${
-                    tab === "rider" ? "bg-red-500 text-white" : "bg-gray-200 text-black"
-                }`}>Riders</button>
-            </div>
+      <div className="flex justify-between gap-4">
+        <div className=" flex gap-4">
+          <button
+          onClick={() => setTab("restaurant")}
+          className={`px-4 py-2 rounded hover:cursor-pointer ${
+            tab === "restaurant" ? "bg-red-500 text-white" : "bg-gray-200"
+          }`}
+        >
+          Restaurant
+        </button>
 
-            {
-                tab === "restaurant" && <div className="grid grid-cols-1 sm:grid-col-2 gap-4">
-                    {restaurant.length === 0 ? <p>No Pending Restaurants</p> : 
-                    restaurant.map((r) => (
-                        <AdminRestaurantCard key={r._id} restaurant={r} onVerify={fetchData} />
-                    ))}
-                </div>
-            }
-
-            {
-                tab === "rider" && <div className="grid grid-cols-1 sm:grid-col-2 gap-4">
-                    {riders.length === 0 ? <p>No Pending Riders</p> : 
-                    riders.map((r) => (
-                        <RiderAdmin key={r._id} rider={r} onVerify={fetchData} />
-                    ))}
-                </div>
-            }
+        <button
+          onClick={() => setTab("rider")}
+          className={`px-4 py-2 rounded hover:cursor-pointer ${
+            tab === "rider" ? "bg-red-500 text-white" : "bg-gray-200"
+          }`}
+        >
+          Riders
+        </button>
         </div>
-    )
-}
 
-export default Admin
+        <button
+          onClick={logoutHandler}
+          className={`px-4 py-2 rounded hover:cursor-pointer bg-gray-200 text-red-500`}
+        >
+          Logout
+        </button>
+      </div>
+
+      {tab === "restaurant" && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {restaurant.length === 0 ? (
+            <p>No pending restaurants</p>
+          ) : (
+            restaurant.map((r) => (
+              <AdminRestaurantCard
+                key={r._id}
+                restaurant={r}
+                onVerify={fetchData}
+              />
+            ))
+          )}
+        </div>
+      )}
+      {tab === "rider" && (
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {riders.length === 0 ? (
+            <p>No pending riders</p>
+          ) : (
+            riders.map((r) => (
+              <RiderAdmin key={r._id} rider={r} onVerify={fetchData} />
+            ))
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Admin;

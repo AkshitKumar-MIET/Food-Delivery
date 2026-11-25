@@ -1,129 +1,151 @@
-import mongoose, {Schema, Document} from "mongoose"
+import mongoose, { Schema, Document } from "mongoose";
 
 export interface IOrder extends Document {
-    userId: string;
-    restaurantId: string;
-    restaurantName: string;
-    riderId?: string | null;
-    riderPhone: number | null;
-    riderName: string | null;
-    distance: number;
-    riderAmount: number;
+  userId: string;
+  restaurantId: string;
+  restaurantName: string;
+  riderId?: string | null;
+  riderPhone: number | null;
+  riderName: string | null;
+  distance: number;
+  riderAmount: number;
 
-    items: {
-        itemId: string;
-        name: string;
-        price: number;
-        quantity: number;
-    }[];
+  items: {
+    itemId: string;
+    name: string;
+    price: number;
+    quauntity: number;
+  }[];
 
-    subTotal: number;
-    deliveryFee: number;
-    platformFee: number;
-    totalAmount: number;
+  subtotal: number;
+  deliveryFee: number;
+  platfromFee: number;
+  totalAmount: number;
 
-    addressId: string;
+  addressId: string;
 
-    deliveryAddress: {
-        formattedAddress: string;
-        mobile: number;
-        latitude: number;
-        longitude: number;
-    };
+  deliveryAddress: {
+    fromattedAddress: string;
+    mobile: number;
+    latitude: number;
+    longitude: number;
+  };
 
-    status: | "placed" | "accepted" | "preparing" | "ready_for_rider" | "rider_assigned" | "picked_up" | "delivered" | "cancelled";
+  status:
+    | "placed"
+    | "accepted"
+    | "preparing"
+    | "ready_for_rider"
+    | "rider_assigned"
+    | "picked_up"
+    | "delivered"
+    | "cancelled";
 
-    paymentMethod: "razorpay";
-    paymentStatus: "pending" | "paid" | "failed";
-    expiresAt: Date;
+  paymentMethod: "razorpay";
+  paymentStatus: "pending" | "paid" | "failed";
 
-    createdAt: Date;
-    updatedAt: Date;
+  expiresAt: Date;
+
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const schema = new Schema<IOrder>(
-    {
-        userId: {
-            type: String,
-            required: true
-        },
-        restaurantId: {
-            type: String,
-            required: true
-        },
-        restaurantName: {
-            type: String,
-            required: true
-        },
-        riderId: {
-            type: String,
-            default: null
-        },
-        riderPhone: {
-            type: String,
-            default: null
-        },
-        riderAmount: {
-            type: Number,
-            required: true
-        },
-        distance: {
-            type: Number,
-            required: true
-        },
+const OrderSchema = new Schema<IOrder>(
+  {
+    userId: {
+      type: String,
+      required: true,
+    },
+    restaurantId: {
+      type: String,
+      required: true,
+    },
+    restaurantName: {
+      type: String,
+      required: true,
+    },
+    riderId: {
+      type: String,
+      default: null,
+    },
+    riderName: {
+      type: String,
+      default: null,
+    },
+    riderPhone: {
+      type: Number,
+      default: null,
+    },
+    riderAmount: {
+      type: Number,
+      required: true,
+    },
+    distance: {
+      type: Number,
+      required: true,
+    },
 
-        items: [
-            {
-                itemId: String,
-                name: String,
-                price: Number,
-                quantity: Number
-            }
-        ],
+    items: [
+      {
+        itemId: String,
+        name: String,
+        price: Number,
+        quauntity: Number,
+      },
+    ],
 
-        subTotal: Number,
-        deliveryFee: Number,
-        platformFee: Number,
-        totalAmount: Number,
+    subtotal: Number,
+    deliveryFee: Number,
+    platfromFee: Number,
+    totalAmount: Number,
 
-        addressId: {
-            type: String,
-            requred: true
-        },
+    addressId: {
+      type: String,
+      required: true,
+    },
 
-        deliveryAddress: {
-            formattedAddress: {type: String, required: true},
-            mobile: {type: Number, required: true},
-            latitude: Number,
-            longitude: Number
-        },
+    deliveryAddress: {
+      fromattedAddress: { type: String, required: true },
+      mobile: { type: Number, required: true },
+      latitude: Number,
+      longitude: Number,
+    },
 
-        status: {
-            type: String,
-            enum: ["placed" , "accepted" , "preparing" , "ready_for_rider" , "rider_assigned" , "picked_up" , "delivered" , "cancelled"],
-            default: "placed"
-        },
+    status: {
+      type: String,
+      enum: [
+        "placed",
+        "accepted",
+        "preparing",
+        "ready_for_rider",
+        "rider_assigned",
+        "picked_up",
+        "delivered",
+        "cancelled",
+      ],
+      default: "placed",
+    },
 
-        paymentMethod: {
-            type: String,
-            enum: ["razorpay"],
-            required: true
-        },
+    paymentMethod: {
+      type: String,
+      enum: ["razorpay", "stripe"],
+      required: true,
+    },
 
-        paymentStatus: {
-            type: String,
-            enum: ["pending", "paid", "failed"],
-            default: "pending"
-        },
+    paymentStatus: {
+      type: String,
+      enum: ["pending", "paid", "failed"],
+      default: "pending",
+    },
 
-        expiresAt: {
-            type: Date,
-            index: {expireAfterSeconds: 0},
+    expiresAt: {
+      type: Date,
+      index: { expireAfterSeconds: 0 },
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-        }
-    },{
-        timestamps: true
-    }
-)
-
-export default mongoose.model<IOrder>("Order", schema)
+export default mongoose.model<IOrder>("Order", OrderSchema);

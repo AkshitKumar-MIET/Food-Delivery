@@ -1,12 +1,20 @@
-import { json } from "express"
-import { getChannel } from "./rabbitmq.js"
+import { getChannel } from "./rabbitmq.js";
 
-export const publishPaymentSuccess = async (payload: {orderId: string, paymentId: string, provider: "razorpay" | "stripe"}) => {
-    const channel = getChannel()
+export const publishPaymentSuccess = async (payload: {
+  orderId: string;
+  paymentId: string;
+  provider: "razorpay";
+}) => {
+  const channel = getChannel();
 
-    channel.sendToQueue(process.env.PAYMENT_QUEUE!, Buffer.from(JSON.stringify({
+  channel.sendToQueue(
+    process.env.PAYMENT_QUEUE!,
+    Buffer.from(
+      JSON.stringify({
         type: "PAYMENT_SUCCESS",
-        data: payload
-    })),
-    { persistent: true} )
-}
+        data: payload,
+      })
+    ),
+    { persistent: true }
+  );
+};

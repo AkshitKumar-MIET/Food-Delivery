@@ -60,13 +60,13 @@ const Sales = ({restaurantId}: {restaurantId: string}) => {
                                 totalRevenue += item.price - Math.ceil(item.price * 0.3)
                                 return <div className="flex flex-1 flex-col justify-between">
                                     <h3 className="font-semibold">{item.name}</h3>
-                                    <p className="font-medium">Selling Price: ₹${item.price}</p>
-                                    <p className="font-medium">:Platform Cut: ₹${Math.ceil(item.price * 0.3)}</p>
-                                    <p className="font-medium">:Your Revenue: ₹${item.price - Math.ceil(item.price * 0.3)}</p>
+                                    <p className="font-medium">Selling Price: ₹{item.price}</p>
+                                    <p className="font-medium">Platform Cut: ₹{Math.ceil(item.price * 0.3)}</p>
+                                    <p className="font-medium">Your Revenue: ₹{item.price - Math.ceil(item.price * 0.3)}</p>
                                 </div>
                                 })
                         }
-                        <h2>Total Revenue: ₹${totalRevenue}</h2>
+                        <h2>Total Revenue: ₹{totalRevenue}</h2>
                     </div>
                 })
             }

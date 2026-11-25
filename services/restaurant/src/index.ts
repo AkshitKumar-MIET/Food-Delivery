@@ -1,35 +1,35 @@
 import express from "express";
-import connectDb from "./config/db.js";
+import connectDB from "./config/db.js";
 import dotenv from "dotenv";
-import restaurantRoutes from "./routes/restaurant.js"
-import cors from "cors"
-import itemRoutes from "./routes/menuitem.js"
-import cartRoutes from "./routes/cart.js"
-import addressRoutes from "./routes/address.js"
-import orderRoutes from "./routes/order.js"
-import { connectRabbitMq } from "./config/rabbitmq.js";
+import restaurantRoutes from "./routes/restaurant.js";
+import itemRoutes from "./routes/menuitem.js";
+import cartRoutes from "./routes/cart.js";
+import addressRoutes from "./routes/address.js";
+import orderRoutes from "./routes/order.js";
+import cors from "cors";
+import { connectRabbitMQ } from "./config/rabbitmq.js";
 import { startPaymentConsumer } from "./config/payment.consumer.js";
 
-dotenv.config()
+dotenv.config();
 
-await connectRabbitMq()
+await connectRabbitMQ();
+startPaymentConsumer();
 
-startPaymentConsumer()
+const app = express();
 
-const app = express()
+app.use(cors());
 
-app.use(cors())
-app.use(express.json())
+app.use(express.json());
 
-const PORT = process.env.PORT || 5001
+const PORT = process.env.PORT || 5001;
 
-app.use("/api/restaurant", restaurantRoutes)
-app.use("/api/item", itemRoutes)
-app.use("api/cart", cartRoutes)
-app.use("api/address", addressRoutes)
-app.use("api/order", orderRoutes)
+app.use("/api/restaurant", restaurantRoutes);
+app.use("/api/item", itemRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/address", addressRoutes);
+app.use("/api/order", orderRoutes);
 
-app.listen(PORT, ()=>{
-    console.log(`Restaurant-service is running at port: ${PORT}`)
-    connectDb()
-})
+app.listen(PORT, () => {
+  console.log(`Restaurant service is running on port ${PORT}`);
+  connectDB();
+});

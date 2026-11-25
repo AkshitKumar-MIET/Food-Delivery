@@ -1,14 +1,12 @@
-import {Navigate, Outlet} from "react-router-dom"
-import { useAppData } from "../context/AppContext"
+import { useAppData } from "../context/AppContext";
+import { Navigate, Outlet } from "react-router-dom";
 
 const PublicRoute = () => {
-    const {isAuth, loading} = useAppData();
+  const { isAuth, loading } = useAppData();
 
-    if(loading){
-        return null
-    }
+  if (loading) return null;
 
-    return isAuth ? <Navigate to="/" replace /> : <Outlet />
-}
+  return isAuth ? <Navigate to="/" replace /> : <Outlet />;
+};
 
-export default PublicRoute
+export default PublicRoute;
